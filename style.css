@@ -1,0 +1,320 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* { box-sizing: border-box; }
+body { font-family: 'Poppins', sans-serif; margin: 0; background-color: #f4f9f4; color: #444; }
+
+.bg-login { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 100%); }
+.login-box { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+.login-box h1 { color: #4CAF50; margin: 0; font-size: 2em; }
+.login-box p { color: #888; margin-top: 5px; margin-bottom: 30px; }
+
+.form-group { text-align: left; margin-bottom: 20px; } 
+.form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9em; color: #555; }
+.login-box input { width: 100%; padding: 12px 15px; border: 2px solid #eee; border-radius: 10px; outline: none; font-size: 1rem; transition: 0.3s; }
+.login-box input:focus { border-color: #4CAF50; box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1); }
+
+.login-box button { width: 100%; padding: 14px; background: #4CAF50; color: white; border: none; border-radius: 10px; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 10px; transition: 0.3s; box-shadow: 0 4px 10px rgba(76, 175, 80, 0.2); }
+.login-box button:hover { background: #43a047; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(76, 175, 80, 0.3); }
+.alert-error { background: #ffebee; color: #c62828; padding: 10px; border-radius: 8px; margin-top: 15px; font-size: 0.9em; }
+
+.app-container { display: flex; min-height: 100vh; position: relative; overflow-x: hidden; }
+
+.sidebar { 
+    position: fixed; top: 0; left: 0; height: 100vh; width: 15px; 
+    background: white; border-right: 1px solid #ddd; z-index: 999; 
+    display: flex; flex-direction: column; 
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+    overflow: hidden; white-space: nowrap; 
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1); 
+}
+.sidebar::after { content: ""; position: absolute; top: 0; right: 0; width: 4px; height: 100%; background: #4CAF50; opacity: 0.6; }
+
+.sidebar:hover { width: 260px; box-shadow: 5px 0 25px rgba(0,0,0,0.15); }
+.sidebar:hover::after { opacity: 0; }
+
+.sidebar-content { 
+    padding: 30px 20px; opacity: 0; transition: opacity 0.2s; width: 260px; 
+    display: flex; flex-direction: column; height: 100%;
+}
+.sidebar:hover .sidebar-content { opacity: 1; transition-delay: 0.1s; }
+
+.brand h2 { color: #4CAF50; text-align: center; margin-bottom: 30px; font-weight: 800; }
+
+.sidebar nav { 
+    display: flex; 
+    flex-direction: column; 
+    height: 100%;
+}
+
+
+/* --- PERBAIKAN ALIGNMENT (FLEXBOX CENTER) --- */
+.sidebar nav a, .sidebar .logout { 
+    display: flex; 
+    align-items: center; /* Pastikan vertikal tengah */
+    gap: 15px;           /* Jarak pasti antara ikon dan teks */
+    padding: 12px 15px; 
+    margin-bottom: 8px; 
+    text-decoration: none; 
+    color: #777; 
+    border-radius: 10px; 
+    transition: 0.3s;
+    white-space: nowrap; 
+}
+
+/* KUNCI: Paksa Ikon Jadi Kotak Sempurna */
+.sidebar nav a i, .sidebar .logout i {
+    width: 35px !important;       /* Lebar KUNCI */
+    height: 35px !important;      /* Tinggi KUNCI */
+    display: flex !important;     /* Gunakan Flexbox di dalam ikon */
+    align-items: center !important;
+    justify-content: center !important; /* Ikon pasti di tengah kotak */
+    font-size: 1.2rem;
+    flex-shrink: 0;               /* Jangan biarkan ikon gepeng */
+}
+
+.sidebar nav a:hover, .sidebar nav a.active { background: #e8f5e9; color: #2e7d32; font-weight: 600; }
+
+.sidebar .logout { 
+    margin-top: auto; 
+    color: #e53935; 
+}
+
+.sidebar .logout:hover { background: #ffebee; color: #c62828; }
+
+/* KONTEN UTAMA */
+.content { flex-grow: 1; margin-left: 15px; padding: 30px 40px; transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1); width: 100%; }
+.sidebar:hover ~ .content { margin-left: 260px; }
+
+/* HEADER & CARDS */
+.profile-header { display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%); padding: 25px 30px; border-radius: 20px; color: white; margin-bottom: 30px; box-shadow: 0 10px 20px rgba(76, 175, 80, 0.2); }
+.welcome-text h1 { margin: 0; font-size: 1.6em; }
+.welcome-text p { margin: 5px 0 0 0; opacity: 0.9; font-size: 0.9em; }
+.profile-card { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 50px; text-decoration: none; color: white; transition: 0.3s; }
+.profile-card:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); }
+.text-right { text-align: right; display: flex; flex-direction: column; }
+.p-name { font-weight: 600; font-size: 0.95em; }
+.p-nim { font-size: 0.75em; opacity: 0.9; }
+.avatar { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid white; }
+
+.card { background: white; padding: 25px; border-radius: 16px; margin-bottom: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; }
+.grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+.card.summary { position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start; }
+.icon-bg { position: absolute; right: -10px; top: -10px; font-size: 5em; opacity: 0.1; transform: rotate(15deg); }
+.card.summary.green { background: #E8F5E9; color: #1B5E20; }
+.btn-green { background: #4CAF50; color: white; box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3); }
+.card.summary.yellow { background: #FFF9C4; color: #785803; }
+.btn-yellow { background: #FBC02D; color: #333; box-shadow: 0 4px 10px rgba(251, 192, 45, 0.3); }
+.card.summary.pink { background: #FCE4EC; color: #880E4F; }
+.btn-pink { background: #EC407A; color: white; box-shadow: 0 4px 10px rgba(236, 64, 122, 0.3); }
+
+/* FINANCE & TABLES */
+.finance-summary { display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
+.f-card { flex: 1; padding: 20px; border-radius: 12px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.05); text-align: center; border-bottom: 4px solid #ddd; min-width: 150px; }
+.f-card h3 { margin: 10px 0 0 0; font-size: 1.4em; }
+.f-card small { font-weight: 600; color: #777; text-transform: uppercase; font-size: 0.75em; }
+.f-card.in { border-color: #4CAF50; }
+.f-card.in h3 { color: #2e7d32; }
+.f-card.out { border-color: #e53935; }
+.f-card.out h3 { color: #c62828; }
+.f-card.bal { border-color: #2196F3; }
+.f-card.bal h3 { color: #1565C0; }
+
+.btn-card { margin-top: 15px; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-block; border: none; transition: transform 0.2s; }
+.btn-card:active { transform: scale(0.95); }
+input, select, textarea { padding: 12px; border: 1px solid #ddd; border-radius: 10px; outline: none; transition: 0.3s; margin-bottom: 10px; }
+input:focus, select:focus, textarea:focus { border-color: #4CAF50; box-shadow: 0 0 5px rgba(76, 175, 80, 0.2); }
+.form-inline { display: flex; gap: 10px; flex-wrap: wrap; }
+button { padding: 12px 25px; background: #66bb6a; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; }
+button:hover { background: #43a047; }
+.list-group { list-style: none; padding: 0; }
+.list-group li { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; }
+.task-time { font-size: 0.85em; color: #888; margin-top: 4px; }
+table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+th { text-align: left; color: #888; font-weight: 500; padding: 10px; border-bottom: 2px solid #eee; }
+td { padding: 12px 10px; border-bottom: 1px solid #f5f5f5; }
+.badge { padding: 5px 10px; background: #eee; border-radius: 20px; font-size: 0.8em; }
+.action-buttons { display: flex; gap: 10px; }
+.btn-icon { text-decoration: none; font-size: 1.1em; padding: 5px; transition: 0.2s; }
+.btn-icon.edit { color: #FFA000; }
+.btn-icon.del { color: #e53935; }
+.btn-icon:hover { transform: scale(1.2); }
+.btn-cancel { background: #e0e0e0; color: #333; padding: 12px 20px; border-radius: 10px; text-decoration: none; font-weight: 600; margin-left: 10px; display: inline-block; }
+.img-preview-container { width: 120px; height: 120px; border-radius: 50%; border: 4px solid #4CAF50; overflow: hidden; margin: 0 auto; position: relative; }
+.avatar-preview { width: 100%; height: 100%; object-fit: cover; }
+.profile-actions { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 15px; }
+/* ==== BUTTON FOTO PROFIL - UPGRADED UI ==== */
+
+.btn-upload {
+    background: linear-gradient(135deg, #66bb6a, #43a047);
+    color: white;
+    padding: 0 22px;
+    height: 42px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9em;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+    transition: all 0.25s ease;
+    border: none;
+}
+
+.btn-upload:hover {
+    background: linear-gradient(135deg, #4caf50, #388e3c);
+    box-shadow: 0 6px 15px rgba(76, 175, 80, 0.45);
+    transform: translateY(-2px);
+}
+
+.btn-upload:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 6px rgba(76, 175, 80, 0.3);
+}
+
+
+/* ==== BUTTON HAPUS FOTO ==== */
+
+.btn-delete-photo {
+    background: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+    padding: 0 22px;
+    height: 42px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9em;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+}
+
+.btn-delete-photo:hover {
+    background: #e53935;
+    color: white;
+    box-shadow: 0 6px 15px rgba(229, 57, 53, 0.35);
+    transform: translateY(-2px);
+}
+
+.btn-delete-photo:active {
+    transform: scale(0.95);
+    background: #c62828;
+}
+
+/* MODAL */
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(4px); animation: fadeIn 0.2s; }
+.modal-box { background: white; width: 90%; max-width: 400px; padding: 30px; border-radius: 20px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.2); animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.modal-icon { font-size: 50px; color: #e53935; margin-bottom: 15px; }
+.modal-box h3 { margin: 10px 0 5px 0; color: #333; }
+.modal-box p { color: #666; font-size: 0.95em; margin-bottom: 25px; }
+.modal-actions { display: flex; gap: 10px; justify-content: center; }
+.btn-modal-yes { background: #e53935; color: white; padding: 12px 25px; border-radius: 12px; text-decoration: none; font-weight: 600; transition: 0.3s; border: none; }
+.btn-modal-yes:hover { background: #c62828; box-shadow: 0 4px 12px rgba(229, 57, 53, 0.3); }
+.btn-modal-no { background: #f5f5f5; color: #555; padding: 12px 25px; border-radius: 12px; border: none; font-weight: 600; cursor: pointer; transition: 0.3s; }
+.btn-modal-no:hover { background: #e0e0e0; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scaleIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* LINK REGISTRASI */
+.link-register {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.2s;
+}
+.link-register:hover {
+    color: #2e7d32;
+    text-decoration: underline;
+}
+
+/* --- TAMBAHAN: NOTIFIKASI SUKSES --- */
+.alert-success {
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #c8e6c9;
+    text-align: center;
+    font-weight: 600;
+    animation: fadeIn 0.5s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.alert-success::before {
+    content: "✅"; /* Ikon Centang */
+    font-size: 1.2em;
+}
+
+/* --- TAMBAHAN: EFEK TOMBOL MELAYANG DI DASHBOARD --- */
+/* Target tombol hijau, kuning, dan pink */
+.btn-green, .btn-yellow, .btn-pink {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transisi halus */
+}
+
+.btn-green:hover, .btn-yellow:hover, .btn-pink:hover {
+    transform: translateY(-5px); /* Tombol naik 5 pixel */
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15); /* Bayangan makin tebal agar terlihat melayang */
+    filter: brightness(1.05); /* Sedikit lebih terang */
+}
+
+/* ================= TOAST NOTIFICATION (MODERN) ================= */
+.toast-box {
+    position: fixed;
+    top: 20px;
+    right: 20px; /* Muncul di pojok kanan atas */
+    background: #fff;
+    color: #333;
+    padding: 15px 25px;
+    border-radius: 10px;
+    border-left: 6px solid #4CAF50; /* Garis hijau di kiri */
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 9999; /* Pastikan selalu di atas elemen lain */
+    min-width: 300px;
+    
+    /* Animasi Masuk */
+    animation: slideInRight 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.toast-box i {
+    color: #4CAF50;
+    font-size: 1.5em;
+}
+
+.toast-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.toast-text strong {
+    font-size: 1em;
+    margin-bottom: 2px;
+}
+
+.toast-text small {
+    color: #777;
+    font-size: 0.85em;
+}
+
+/* Animasi Slide Masuk dari Kanan */
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* Animasi Fade Out (Untuk JS nanti) */
+.fade-out {
+    animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeOut {
+    to { transform: translateX(100%); opacity: 0; }
+}
